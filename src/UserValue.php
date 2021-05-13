@@ -48,7 +48,7 @@ class UserValue {
 	 */
 	private function testMandatory(string $value) {
 		if($this->mandatory === TRUE && $value==="") {
-			throw new RuntimeException("value is mandatory");
+			throw new MandatoryException("value is mandatory");
 		}
 	}
 	

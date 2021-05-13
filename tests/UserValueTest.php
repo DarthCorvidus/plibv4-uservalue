@@ -44,7 +44,7 @@ class UserValueTest extends TestCase {
 	 */
 	function testGetEmptyMandatory() {
 		$value = new UserValue(TRUE);
-		$this->expectException(RuntimeException::class);
+		$this->expectException(MandatoryException::class);
 		$value->getValue();
 	}
 	

@@ -54,7 +54,7 @@ class UserValueTest extends TestCase {
 	 * Set an empty string to a non-mandatory value.
 	 */
 	function testSetEmptyOptional() {
-		$value = new UserValue(FALSE);
+		$value = new UserValue(UserValue::OPTIONAL);
 		$value->setValue("");
 		$this->assertEquals("", $value->getValue());
 	}
@@ -65,7 +65,7 @@ class UserValueTest extends TestCase {
 	 * Set an empty value to a mandatory instance, which throws an exception
 	 */
 	function testSetEmptyMandatory() {
-		$value = new UserValue(TRUE);
+		$value = new UserValue(UserValue::MANDATORY);
 		$this->expectException(RuntimeException::class);
 		$value->setValue("");
 	}
@@ -76,7 +76,7 @@ class UserValueTest extends TestCase {
 	 * Set 0 instead of empty string, which is NOT empty.
 	 */
 	function testSetZeroMandatory() {
-		$value = new UserValue(TRUE);
+		$value = new UserValue(UserValue::MANDATORY);
 		$value->setValue("0");
 		$this->assertEquals("0", $value->getValue());
 	}
@@ -135,7 +135,7 @@ class UserValueTest extends TestCase {
 	 * Test that an empty string for an optional value won't be validated.
 	 */
 	function testValidateDateOptional() {
-		$value = new UserValue(FALSE);
+		$value = new UserValue(UserValue::OPTIONAL);
 		$value->setValidate(new ValidateDate(ValidateDate::ISO));
 		$value->setValue("");
 		$this->assertEquals("", $value->getValue());
@@ -160,7 +160,7 @@ class UserValueTest extends TestCase {
 	 * Test that an empty string for an optional value won't be converted.
 	 */
 	function testConvertOptional() {
-		$value = new UserValue(FALSE);
+		$value = new UserValue(UserValue::OPTIONAL);
 		$value->setValidate(new ValidateDate(ValidateDate::ISO));
 		$value->setConvert(new ConvertDate(ConvertDate::ISO, ConvertDate::GERMAN));
 		$value->setValue("");

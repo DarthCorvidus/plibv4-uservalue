@@ -20,11 +20,13 @@ class UserValue {
 	private $validate;
 	private $convert;
 	private $trim = TRUE;
+	const MANDATORY = TRUE;
+	const OPTIONAL = FALSE;
 	/**
 	 * Determines if empty values are allowed or not.
 	 * @param bool $mandatory
 	 */
-	function __construct(bool $mandatory = TRUE) {
+	function __construct(bool $mandatory = self::MANDATORY) {
 		$this->mandatory = $mandatory;
 	}
 	
@@ -47,7 +49,7 @@ class UserValue {
 	 * @throws RuntimeException
 	 */
 	private function testMandatory(string $value) {
-		if($this->mandatory === TRUE && $value==="") {
+		if($this->mandatory === self::MANDATORY && $value==="") {
 			throw new MandatoryException("value is mandatory");
 		}
 	}

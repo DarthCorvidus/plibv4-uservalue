@@ -30,6 +30,16 @@ class UserValue {
 		$this->mandatory = $mandatory;
 	}
 	
+	function mandatory(): UserValue {
+		$value = new UserValue(self::MANDATORY);
+	return $value;
+	}
+	
+	function optional(): UserValue {
+		$value = new UserValue(self::OPTIONAL);
+	return $value;
+	}
+	
 	/**
 	 * No trim
 	 * 

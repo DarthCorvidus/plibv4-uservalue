@@ -36,7 +36,7 @@ class UserValue {
 	 * 
 	 * @return \UserValue
 	 */
-	function asMandatory(): UserValue {
+	static function asMandatory(): UserValue {
 		$value = new UserValue(TRUE);
 	return $value;
 	}
@@ -48,7 +48,7 @@ class UserValue {
 	 * no value or an empty value (only "" counts as empty value)
 	 * @return \UserValue
 	 */
-	function asOptional(): UserValue {
+	static function asOptional(): UserValue {
 		$value = new UserValue(FALSE);
 	return $value;
 	}

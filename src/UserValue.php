@@ -20,23 +20,36 @@ class UserValue {
 	private $validate;
 	private $convert;
 	private $trim = TRUE;
-	const MANDATORY = TRUE;
-	const OPTIONAL = FALSE;
 	/**
 	 * Determines if empty values are allowed or not.
 	 * @param bool $mandatory
 	 */
-	function __construct(bool $mandatory = self::MANDATORY) {
+	private function __construct(bool $mandatory) {
 		$this->mandatory = $mandatory;
 	}
 	
-	function mandatory(): UserValue {
-		$value = new UserValue(self::MANDATORY);
+	/**
+	 * As Mandatory
+	 * 
+	 * Creates a mandatory instance of UserValue, ie it won't accept empty
+	 * values.
+	 * 
+	 * @return \UserValue
+	 */
+	function asMandatory(): UserValue {
+		$value = new UserValue(TRUE);
 	return $value;
 	}
 	
-	function optional(): UserValue {
-		$value = new UserValue(self::OPTIONAL);
+	/**
+	 * As Optional
+	 * 
+	 * Creates an instance of UserValue as optional instance, ie it will accept
+	 * no value or an empty value (only "" counts as empty value)
+	 * @return \UserValue
+	 */
+	function asOptional(): UserValue {
+		$value = new UserValue(FALSE);
 	return $value;
 	}
 	
@@ -59,7 +72,7 @@ class UserValue {
 	 * @throws RuntimeException
 	 */
 	private function testMandatory(string $value) {
-		if($this->mandatory === self::MANDATORY && $value==="") {
+		if($this->isMandatory() && $value==="") {
 			throw new MandatoryException("value is mandatory");
 		}
 	}
@@ -123,5 +136,9 @@ class UserValue {
 	function getValue() {
 		$this->testMandatory($this->value);
 	return $this->value;
+	}
+	
+	function isMandatory(): bool {
+		return $this->mandatory;
 	}
 }

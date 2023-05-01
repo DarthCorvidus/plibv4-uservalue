@@ -15,7 +15,7 @@
  * is to replace them.
  */
 class UserValue {
-	private $value = "";
+	private $value = NULL;
 	private $mandatory;
 	private $validate;
 	private $convert;
@@ -71,8 +71,8 @@ class UserValue {
 	 * @param string $value
 	 * @throws RuntimeException
 	 */
-	private function testMandatory(string $value) {
-		if($this->isMandatory() && $value==="") {
+	private function testMandatory($value) {
+		if($this->isMandatory() && ($value==="" || $value===NULL)) {
 			throw new MandatoryException("value is mandatory");
 		}
 	}
@@ -131,10 +131,13 @@ class UserValue {
 	 * check is done here to test if the mandatory constraint is satisfied; if
 	 * an instance is mandatory, and setUserInput was never called, an Exception
 	 * will be thrown.
-	 * @return type
+	 * @return string
 	 */
-	function getValue() {
+	function getValue(): string {
 		$this->testMandatory($this->value);
+		if($this->value===NULL) {
+			return "";
+		}
 	return $this->value;
 	}
 	

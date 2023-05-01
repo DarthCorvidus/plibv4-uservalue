@@ -26,6 +26,19 @@ class UserValueTest extends TestCase {
 		$this->assertEquals(FALSE, $value->isMandatory());
 	}
 	
+	function testIsEmpty() {
+		$this->assertEquals(FALSE, UserValue::isEmpty("Dog"));
+		$this->assertEquals(FALSE, UserValue::isEmpty("0"));
+		$this->assertEquals(FALSE, UserValue::isEmpty("0.0"));
+		$this->assertEquals(TRUE, UserValue::isEmpty(NULL));
+		$this->assertEquals(TRUE, UserValue::isEmpty(""));
+	}
+	
+	function testIsEmptyWrongType() {
+		$this->expectException(RuntimeException::class);
+		UserValue::isEmpty(3);
+	}
+	
 	/**
 	 * Test get value
 	 * 

@@ -61,6 +61,23 @@ class UserValue {
 	function noTrim() {
 		$this->trim = FALSE;
 	}
+	/**
+	 * PHP has some sick sh... going on when casting types, so let's be extra
+	 * safe here and make clear what is empty in the scope of this class.
+	 * As it is intended to be used only on strings or null, it will throw a
+	 * RuntimeException when used on any other type.
+	 * @param type $value
+	 * @return boolean
+	 */
+	static function isEmpty($value) {
+		if(!is_string($value) and !is_null($value)) {
+			throw new RuntimeException("This method is intended to evaluate string or null types only, not ". gettype($value));
+		}
+		if($value!==NULL and $value!=="") {
+			return FALSE;
+		}
+	return TRUE;
+	}
 	
 	/**
 	 * testMandatory
@@ -72,7 +89,7 @@ class UserValue {
 	 * @throws RuntimeException
 	 */
 	private function testMandatory($value) {
-		if($this->isMandatory() && ($value==="" || $value===NULL)) {
+		if($this->isMandatory() && self::isEmpty($value)) {
 			throw new MandatoryException("value is mandatory");
 		}
 	}

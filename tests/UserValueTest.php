@@ -189,4 +189,73 @@ class UserValueTest extends TestCase {
 		$value->setValue("");
 		$this->assertEquals("", $value->getValue());
 	}
+	
+	function testSetDefaultNoSetValueCalled() {
+		$value = UserValue::asOptional();
+		$value->setDefault("02:00:00");
+		$this->assertEquals("02:00:00", $value->getValue());
+	}
+
+	function testSetDefaultWithSetValue() {
+		$value = UserValue::asOptional();
+		$value->setDefault("02:00:00");
+		$value->setValue("03:00:00");
+		$this->assertEquals("03:00:00", $value->getValue());
+	}
+
+	/**
+	 * Set Default Mandatory
+	 * 
+	 * If a default value is set, no MandatoryException will be thrown.
+	 */
+	function testSetDefaultMandatory() {
+		$value = UserValue::asMandatory();
+		$value->setDefault("02:00:00");
+		$this->assertEquals("02:00:00", $value->getValue());
+	}
+
+	/**
+	 * Set Default Empty Mandatory
+	 * 
+	 * If a default value is set, but an empty value is set, a MandatoryException
+	 * will be thrown.
+	 * This is to protect the user from unexpected behaviour, ie entering "" but
+	 * getting 02:00:00 here.
+	 */
+	function testSetDefaultEmptyMandatory() {
+		$value = UserValue::asMandatory();
+		$value->setDefault("02:00:00");
+		$this->expectException(MandatoryException::class);
+		$value->setValue("");
+	}
+	
+	/**
+	 * Set Empty Default Optional
+	 * 
+	 * If a value is optional, but defaulted, user input has precedence, as the
+	 * programmer assumes that empty values are allowed.
+	 * Example: user uses setDescription="" to clear out a description, but the
+	 * original description was used as default.
+	 */
+	function testSetDefaultEmptyOptional() {
+		$value = UserValue::asOptional();
+		$value->setDefault("02:00:00");
+		$value->setValue("");
+		$this->assertEquals("", $value->getValue());
+	}
+
+	function testSetEmptyDefaultForbidden() {
+		$value = UserValue::asMandatory();
+		$this->expectException(MandatoryException::class);
+		$value->setDefault("");
+		$value->getValue();
+	}
+	
+	function testSetEmptyDefaultAllowed() {
+		$value = UserValue::asMandatory();
+		$value->setDefault("", TRUE);
+		$this->expectException(MandatoryException::class);
+		$value->getValue();
+	}
+
 }

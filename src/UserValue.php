@@ -20,6 +20,7 @@ class UserValue {
 	private $validate;
 	private $convert;
 	private $trim = TRUE;
+	private $default = NULL;
 	/**
 	 * Determines if empty values are allowed or not.
 	 * @param bool $mandatory
@@ -115,12 +116,34 @@ class UserValue {
 	}
 	
 	/**
-	 * Set value
+	 * Set Default
+	 * 
+	 * Set a default value which will be returned if setValue is not called.
+	 * $allowEmpty allows empty values on mandatory values. While this may seem
+	 * counterintuitive, consider the case that you use setDefault to set the
+	 * existing value of a database table to a form, which was not mandatory
+	 * before and therefore can be empty.
+	 * Note that default values won't be converted or validated; consider the
+	 * case that you set a default from a database (2023-05-01) but allow the
+	 * user to enter localized dates (01.05.2023 or 05/01/2023). Yours is the
+	 * 'true' format, and his will be converted to yours.
+	 * @param string $default
+	 * @param bool $allowEmpty
+	 */
+	public function setDefault(string $default, bool $allowEmpty=FALSE) {
+		if($allowEmpty == FALSE) {
+			$this->testMandatory($default);
+		}
+		$this->default = $default;
+	}
+	
+	/**
+	 * Set Value
 	 * 
 	 * Set the user input, which will apply mandatory and validate checks, if
-	 * available. Note that if you want to have a default value for optional
-	 * values, you'll have to use setUserInput too - what applies to the user
-	 * applies to the programmer as well.
+	 * available.
+	 * Empty user input will be accepted on optional values, and will take
+	 * precedence over default values.
 	 * @param string $value
 	 * @return type
 	 */
@@ -130,6 +153,7 @@ class UserValue {
 		}
 		$this->testMandatory($value);
 		if($value==="") {
+			$this->value = "";
 			return;
 		}
 		if($this->validate) {
@@ -151,6 +175,13 @@ class UserValue {
 	 * @return string
 	 */
 	function getValue(): string {
+		/*
+		 * Easiest case: setValue has never been called and there is a non-empty
+		 * default value. Return default value. 
+		 */
+		if($this->value===NULL && !self::isEmpty($this->default)) {
+			return $this->default;
+		}
 		$this->testMandatory($this->value);
 		if($this->value===NULL) {
 			return "";

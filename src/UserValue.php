@@ -11,16 +11,18 @@
  * Class to represent a scalar value which comes from any untrusted source, such
  * as configuration files, CLI parameters, CLI input or of course $_GET/$_POST.
  * 
- * plibv4/import and plibv4/Argv currently have similar solutions, but UserValue
- * is to replace them.
+ * A note about how null is used: There is a difference between a value which is
+ * used, but has an empty string as opposed to a value which is not used at all.
+ * Eg compare --name="lucy", --name='' ("") or, well, no --name (null).
+ * Libraries using UserValue should make use of "" and null accordingly.
  */
 class UserValue {
-	private $value = NULL;
-	private $mandatory;
-	private $validate;
-	private $convert;
-	private $trim = TRUE;
-	private $default = NULL;
+	private ?string $value = NULL;
+	private bool $mandatory = false;
+	private ?Validate $validate = null;
+	private ?Convert $convert = null;
+	private bool $trim = TRUE;
+	private ?string $default = NULL;
 	/**
 	 * Determines if empty values are allowed or not.
 	 * @param bool $mandatory
@@ -59,7 +61,7 @@ class UserValue {
 	 * 
 	 * Doesn't trim values. Usually, it is advisable to trim() user values.
 	 */
-	function noTrim() {
+	function noTrim(): void {
 		$this->trim = FALSE;
 	}
 	/**
@@ -67,13 +69,10 @@ class UserValue {
 	 * safe here and make clear what is empty in the scope of this class.
 	 * As it is intended to be used only on strings or null, it will throw a
 	 * RuntimeException when used on any other type.
-	 * @param type $value
+	 * @param string $value
 	 * @return boolean
 	 */
-	static function isEmpty($value) {
-		if(!is_string($value) and !is_null($value)) {
-			throw new RuntimeException("This method is intended to evaluate string or null types only, not ". gettype($value));
-		}
+	static function isEmpty(?string $value) {
 		if($value!==NULL and $value!=="") {
 			return FALSE;
 		}
@@ -89,7 +88,7 @@ class UserValue {
 	 * @param string $value
 	 * @throws RuntimeException
 	 */
-	private function testMandatory($value) {
+	private function testMandatory(?string $value): void {
 		if($this->isMandatory() && self::isEmpty($value)) {
 			throw new MandatoryException("value is mandatory");
 		}
@@ -101,7 +100,7 @@ class UserValue {
 	 * Set an implementation of Validate against which a string will be checked.
 	 * @param Validate $validate
 	 */
-	function setValidate(Validate $validate) {
+	function setValidate(Validate $validate): void {
 		$this->validate = $validate;
 	}
 	
@@ -111,7 +110,7 @@ class UserValue {
 	 * Set an implementation of Convert which will be applied to a user value.
 	 * @param Convert $convert
 	 */
-	function setConvert(Convert $convert) {
+	function setConvert(Convert $convert): void {
 		$this->convert = $convert;
 	}
 	
@@ -130,7 +129,7 @@ class UserValue {
 	 * @param string $default
 	 * @param bool $allowEmpty
 	 */
-	public function setDefault(string $default, bool $allowEmpty=FALSE) {
+	public function setDefault(string $default, bool $allowEmpty=FALSE): void {
 		if($allowEmpty == FALSE) {
 			$this->testMandatory($default);
 		}
@@ -145,9 +144,9 @@ class UserValue {
 	 * Empty user input will be accepted on optional values, and will take
 	 * precedence over default values.
 	 * @param string $value
-	 * @return type
+	 * @return void
 	 */
-	function setValue(string $value) {
+	function setValue(string $value): void {
 		if($this->trim==true) {
 			$value = trim($value);
 		}
@@ -174,7 +173,7 @@ class UserValue {
 	 * will be thrown.
 	 * @return string
 	 */
-	function getValue(): string {
+	function getValue(): ?string {
 		/*
 		 * Easiest case: setValue has never been called and there is a non-empty
 		 * default value. Return default value. 

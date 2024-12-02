@@ -34,8 +34,11 @@ class UserValueTest extends TestCase {
 		$this->assertEquals(TRUE, UserValue::isEmpty(""));
 	}
 	
+	/**
+	 * This test is redundant now, as string can be defined as type.
+	 */
 	function testIsEmptyWrongType() {
-		$this->expectException(RuntimeException::class);
+		$this->expectException(TypeError::class);
 		UserValue::isEmpty(3);
 	}
 	

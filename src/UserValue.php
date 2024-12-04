@@ -173,19 +173,22 @@ class UserValue {
 	 * will be thrown.
 	 * @return string
 	 */
-	function getValue(): ?string {
+	function getValue(): string {
 		/*
 		 * Easiest case: setValue has never been called and there is a non-empty
 		 * default value. Return default value. 
 		 */
 		if($this->value===NULL && !self::isEmpty($this->default)) {
-			return $this->default;
+			/**
+			 * Catch 'impossible' null value. It can't be default here, but
+			 * Psalm can't analyze it.
+			 */
+			return $this->default ?? "" ;
 		}
 		$this->testMandatory($this->value);
-		if($this->value===NULL) {
-			return "";
-		}
-	return $this->value;
+		// Coalesce possible null into empty string.
+		$coalesced = $this->value ?? "";
+	return $coalesced;
 	}
 	
 	function isMandatory(): bool {

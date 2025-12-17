@@ -16,7 +16,7 @@
  * Eg compare --name="lucy", --name='' ("") or, well, no --name (null).
  * Libraries using UserValue should make use of "" and null accordingly.
  */
-class UserValue {
+final class UserValue {
 	private ?string $value = NULL;
 	private bool $mandatory = false;
 	private ?Validate $validate = null;

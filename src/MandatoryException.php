@@ -11,6 +11,6 @@
  * Exception to distinguish from ValidateException or any exception a complex
  * use of UserValue may throw.
  */
-class MandatoryException extends RuntimeException {
+final class MandatoryException extends RuntimeException {
 
 }

@@ -36,14 +36,6 @@ final class UserValueTest extends TestCase {
 	}
 	
 	/**
-	 * This test is redundant now, as string can be defined as type.
-	 */
-	function testIsEmptyWrongType(): void {
-		$this->expectException(TypeError::class);
-		UserValue::isEmpty(3);
-	}
-	
-	/**
 	 * Test get value
 	 * 
 	 * Set a value and get it.

@@ -4,7 +4,10 @@
  * @author Claus-Christoph Küthe <floss@vm01.telton.de>
  * @license LGPL
  */
-
+namespace plibv4\uservalue;
+use plibv4\validate\Validate;
+use plibv4\convert\Convert;
+use RuntimeException;
 /**
  * User Value
  * 
@@ -37,7 +40,7 @@ final class UserValue {
 	 * Creates a mandatory instance of UserValue, ie it won't accept empty
 	 * values.
 	 * 
-	 * @return \UserValue
+	 * @return UserValue
 	 */
 	static function asMandatory(): UserValue {
 		$value = new UserValue(TRUE);
@@ -49,7 +52,7 @@ final class UserValue {
 	 * 
 	 * Creates an instance of UserValue as optional instance, ie it will accept
 	 * no value or an empty value (only "" counts as empty value)
-	 * @return \UserValue
+	 * @return UserValue
 	 */
 	static function asOptional(): UserValue {
 		$value = new UserValue(FALSE);

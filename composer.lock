@@ -50,12 +50,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DarthCorvidus/plibv4-convert",
-                "reference": "749e1c7c5be0bcffaedd869be0261d0656555553"
+                "reference": "e63780457784dea8b8d5066093b0bddb4621988e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DarthCorvidus/plibv4-convert/zipball/749e1c7c5be0bcffaedd869be0261d0656555553",
-                "reference": "749e1c7c5be0bcffaedd869be0261d0656555553",
+                "url": "https://api.github.com/repos/DarthCorvidus/plibv4-convert/zipball/e63780457784dea8b8d5066093b0bddb4621988e",
+                "reference": "e63780457784dea8b8d5066093b0bddb4621988e",
                 "shasum": ""
             },
             "require": {
@@ -83,7 +83,7 @@
                     "./vendor/bin/psalm --show-info=true --no-cache"
                 ]
             },
-            "time": "2026-01-28T19:11:30+00:00"
+            "time": "2026-05-19T17:52:41+00:00"
         },
         {
             "name": "plibv4/validate",
@@ -91,12 +91,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DarthCorvidus/plibv4-validate",
-                "reference": "5775f0ca7bc7edb5deac154878563263ab1c9cff"
+                "reference": "b43cc0f20a9f86aeeceb4a0b1a518fbf749e1295"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DarthCorvidus/plibv4-validate/zipball/5775f0ca7bc7edb5deac154878563263ab1c9cff",
-                "reference": "5775f0ca7bc7edb5deac154878563263ab1c9cff",
+                "url": "https://api.github.com/repos/DarthCorvidus/plibv4-validate/zipball/b43cc0f20a9f86aeeceb4a0b1a518fbf749e1295",
+                "reference": "b43cc0f20a9f86aeeceb4a0b1a518fbf749e1295",
                 "shasum": ""
             },
             "require": {
@@ -130,7 +130,7 @@
                     "./vendor/bin/psalm --show-info=true --no-cache"
                 ]
             },
-            "time": "2026-01-28T19:11:53+00:00"
+            "time": "2026-05-19T17:54:04+00:00"
         }
     ],
     "packages-dev": [
